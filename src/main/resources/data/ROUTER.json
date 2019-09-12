@@ -1,0 +1,86 @@
+{
+  "deployment": {
+    "name": "ROUTER",
+    "vm_group": [
+      {
+        "name": "ROUTER",
+        "image": "isrv-universalk9.16.08.01c-serial.tar.gz",
+        "flavor": "ISRv-small",
+        "bootup_time": "600",
+        "recovery_wait_time": "5",
+        "placement": {
+          "type": "zone_host",
+          "host": "datastore1"
+        },
+        "recovery_policy": {
+          "action_on_recovery": "REBOOT_ONLY"
+        },
+        "interfaces": {
+          "interface": [
+            {
+              "nicid": "0",
+              "network": "int-mgmt-net"
+            },
+            {
+              "nicid": "1",
+              "network": "wan-net",
+              "model": "virtio"
+            },
+            {
+              "nicid": "2",
+              "network": "lan-net",
+              "model": "virtio"
+            }
+          ]
+        },
+        "scaling": {
+          "min_active": "1",
+          "max_active": "1"
+        },
+        "kpi_data": {
+          "kpi": {
+            "event_name": "VM_ALIVE",
+            "metric_value": "1",
+            "metric_cond": "GT",
+            "metric_type": "UINT32",
+            "metric_collector": {
+              "type": "ICMPPing",
+              "nicid": "0",
+              "poll_frequency": "10",
+              "polling_unit": "seconds",
+              "continuous_alarm": "false"
+            },
+            "metric_occurrences_false": "60"
+          }
+        },
+        "rules": {
+          "admin_rules": {
+            "rule": {
+              "event_name": "VM_ALIVE",
+              "action": [
+                "ALWAYS log",
+                "TRUE servicebooted.sh",
+                "FALSE recover autohealing"
+              ]
+            }
+          }
+        },
+        "config_data": {
+          "configuration": [
+            {
+              "dst": "bootstrap_config",
+              "variable": [
+                {
+                  "name": "TECH_PACKAGE",
+                  "val": "ax"
+                }
+              ]
+            }
+          ]
+        },
+        "vim_vm_name": "ROUTER",
+        "vnc": {}
+      }
+    ]
+  }
+}
