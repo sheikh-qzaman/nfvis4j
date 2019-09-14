@@ -1,6 +1,8 @@
 package com.sheikh.nfvis4j.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -13,13 +15,14 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 
 /**
+ *TODO Replace the default values with appropriate constructs
  * @author Sheikh Qumruzzaman
  * Sep 9, 2019
  */
 @JsonTypeInfo(include = As.WRAPPER_OBJECT, use = Id.NAME)
 @JsonTypeName("deployment")
 @JsonInclude(Include.NON_NULL)
-public class Deployment {
+public class Deployment implements Serializable{
 	private String name;
 	
 	@JsonProperty("vm_group")
@@ -39,16 +42,16 @@ public class Deployment {
 		this.vmGroup = vmGroup;
 	}
 	
-	private static class VmGroup implements Serializable{
+	public static class VmGroup implements Serializable{
 		private String name;
 		@JsonProperty("vim_vm_name")
 		private String vimVmName;
 		private String image;
 		private String flavor;
 		@JsonProperty("bootup_time")
-		private String bootupTime;
+		private String bootupTime = "-1";
 		@JsonProperty("recovery_wait_time")
-		private String recoveryWaitTime;
+		private String recoveryWaitTime = "5";
 		private Placement placement;
 		@JsonProperty("recovery_policy")
 		private RecoveryPolicy recoveryPolicy;
@@ -146,9 +149,9 @@ public class Deployment {
 			this.vnc = vnc;
 		}
 		
-		private static class Placement implements Serializable {
-			private String type;
-			private String host;
+		public static class Placement implements Serializable {
+			private String type = "zone_host";
+			private String host = "datastore1";
 			
 			public String getType() {
 				return type;
@@ -164,21 +167,39 @@ public class Deployment {
 			}
 		}
 		
-		private static class RecoveryPolicy implements Serializable{
+		public static class RecoveryPolicy implements Serializable{
+			//TODO Create an enum for different actions
 			@JsonProperty("action_on_recovery")
-			private String actionOnRecovery;
+			private String actionOnRecovery = "REBOOT_ONLY";
 		}
 		
-		private static class Interfaces implements Serializable{
+		public static class Interfaces implements Serializable{
 			@JsonProperty("interface")
 			private List<Interface> interfaces;
 			
+			public List<Interface> getInterfaces() {
+				return interfaces;
+			}
+
+			public void setInterfaces(List<Interface> interfaces) {
+				this.interfaces = interfaces;
+			}
+
 			@JsonInclude(Include.NON_NULL)
-			private static class Interface implements Serializable{
+			public static class Interface implements Serializable{
 				@JsonProperty("nicid")
 				private String nicId;
 				private String network;
 				private String model;
+				
+				public Interface() {
+				}
+				
+				public Interface(String nicid, String network, String model) {
+					this.nicId = nicid;
+					this.network = network;
+					this.model = model;
+				}
 				
 				public String getNicId() {
 					return nicId;
@@ -200,11 +221,11 @@ public class Deployment {
 				}
 			}
 		}
-		private static class Scaling implements Serializable {
+		public static class Scaling implements Serializable {
 			@JsonProperty("min_active")
-			private String minActive;
+			private String minActive = "1";
 			@JsonProperty("max_active")
-			private String maxActive;
+			private String maxActive = "1";
 			
 			public String getMinActive() {
 				return minActive;
@@ -220,7 +241,8 @@ public class Deployment {
 			}
 		}
 		
-		private static class KpiData implements Serializable{
+		public static class KpiData implements Serializable{
+			//TODO Remove default values
 			private Kpi kpi;
 			
 			public Kpi getKpi() {
@@ -231,17 +253,17 @@ public class Deployment {
 				this.kpi = kpi;
 			}
 
-			private static class Kpi implements Serializable{
+			public static class Kpi implements Serializable{
 				@JsonProperty("event_name")
-				private String eventName;
+				private String eventName = "VM_ALIVE";
 				@JsonProperty("metric_value")
-				private String metricValue;
+				private String metricValue = "1";
 				@JsonProperty("metric_cond")
-				private String metricCond;
+				private String metricCond = "GT";
 				@JsonProperty("metric_type")
-				private String metricType;
+				private String metricType = "UINT32";
 				@JsonProperty("metric_occurrences_false")
-				private String metricOccurencesFalse;
+				private String metricOccurencesFalse = "60";
 				@JsonProperty("metric_collector")
 				private MetricCollector metricCollector;
 				
@@ -293,16 +315,16 @@ public class Deployment {
 					this.metricCollector = metricCollector;
 				}
 
-				private static class MetricCollector implements Serializable{
-					private String type;
+				public static class MetricCollector implements Serializable{
+					private String type = "ICMPPing";
 					@JsonProperty("nicid")
-					private String nicId;
+					private String nicId = "0";
 					@JsonProperty("poll_frequency")
-					private String pollFrequency;
+					private String pollFrequency = "10";
 					@JsonProperty("polling_unit")
-					private String pollingUnit;
+					private String pollingUnit = "seconds";
 					@JsonProperty("continuous_alarm")
-					private boolean continuousAlarm;
+					private String continuousAlarm = "false";
 					
 					public String getType() {
 						return type;
@@ -328,17 +350,17 @@ public class Deployment {
 					public void setPollingUnit(String pollingUnit) {
 						this.pollingUnit = pollingUnit;
 					}
-					public boolean isContinuousAlarm() {
+					public String isContinuousAlarm() {
 						return continuousAlarm;
 					}
-					public void setContinuousAlarm(boolean continuousAlarm) {
+					public void setContinuousAlarm(String continuousAlarm) {
 						this.continuousAlarm = continuousAlarm;
 					}
 				}
 			}
 		}
 
-		private static class Rules implements Serializable{
+		public static class Rules implements Serializable{
 			@JsonProperty("admin_rules")
 			private AdminRules adminRules;
 			
@@ -350,7 +372,7 @@ public class Deployment {
 				this.adminRules = adminRules;
 			}
 
-			private static class AdminRules implements Serializable{
+			public static class AdminRules implements Serializable{
 				private Rule rule;
 				
 				public Rule getRule() {
@@ -361,11 +383,11 @@ public class Deployment {
 					this.rule = rule;
 				}
 
-				private static class Rule implements Serializable{
+				public static class Rule implements Serializable{
 					@JsonProperty("event_name")
-					private String eventName;
-					private List<String> action;
-					
+					private String eventName = "VM_ALIVE";
+					private List<String> action = new ArrayList<String>(
+							Arrays.asList("ALWAYS log", "TRUE servicebooted.sh", "FALSE recover autohealing"));
 					public String getEventName() {
 						return eventName;
 					}
@@ -382,7 +404,7 @@ public class Deployment {
 			}
 		}
 
-		private static class ConfigData implements Serializable{
+		public static class ConfigData implements Serializable{
 			private List<Configuration> configuration;
 			
 			public List<Configuration> getConfiguration() {
@@ -392,8 +414,8 @@ public class Deployment {
 				this.configuration = configuration;
 			}
 			
-			private static class Configuration implements Serializable{
-				private String dst;
+			public static class Configuration implements Serializable{
+				private String dst = "bootstrap_config";
 				private List<Variable> variable;
 				
 				public String getDst() {
@@ -412,9 +434,9 @@ public class Deployment {
 					this.variable = variable;
 				}
 
-				private static class Variable implements Serializable{
-					private String name;
-					private String val;
+				public static class Variable implements Serializable{
+					private String name = "TECH_PACKAGE";
+					private String val = "ax";
 					
 					public String getName() {
 						return name;
@@ -434,7 +456,7 @@ public class Deployment {
 	}
 	
 	@JsonIgnoreProperties
-	private static class Vnc implements Serializable{
+	public static class Vnc implements Serializable{
 
 	}
 }
