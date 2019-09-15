@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sheikh.nfvis4j.builder.Builders;
 import com.sheikh.nfvis4j.client.Nfvis;
-import com.sheikh.nfvis4j.model.Deployment;
+import com.sheikh.nfvis4j.model.EscDeployment;
 
 /**
  * @author Sheikh Qumruzzaman
@@ -16,7 +16,6 @@ import com.sheikh.nfvis4j.model.Deployment;
  */
 public class VnfDeploy {
 	public static void main(String[] args) {
-		Deployment deployment = null;
 		/*try {
 			File file = new File(VnfDeploy.class.getClassLoader().getResource("data/ROUTER.json").getFile());
 			deployment = new ObjectMapper().readValue(file, Deployment.class);
@@ -29,7 +28,7 @@ public class VnfDeploy {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}*/
-		deployment = Builders.deployment()
+		EscDeployment deployment = Builders.deployment()
 				.name("ROUTER")
 				.image("isrv-universalk9.16.08.01c-serial.tar.gz")
 				.flavor("ISRv-small")

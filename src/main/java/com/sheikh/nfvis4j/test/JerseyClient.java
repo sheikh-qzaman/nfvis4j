@@ -12,7 +12,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sheikh.nfvis4j.client.RestClientFactory;
-import com.sheikh.nfvis4j.model.Deployment;
+import com.sheikh.nfvis4j.model.EscDeployment;
 import com.sheikh.nfvis4j.model.Images;
 
 import java.io.File;
@@ -28,13 +28,13 @@ public class JerseyClient {
 	//final String URL = "https://192.168.0.222/api/operational/platform-detail";
 	//final String URL = "https://192.168.0.222/api/operational/vm_lifecycle/opdata/images?deep";
 	final String URL = "https://192.168.0.222/api/config/vm_lifecycle/tenants/tenant/admin/deployments";
-	public Deployment deployment; 
+	public EscDeployment deployment; 
 	
 	public JerseyClient() {
-		Deployment deployment = null;
+		EscDeployment deployment = null;
 		try {
 			File file = new File(getClass().getClassLoader().getResource("data/ROUTER.json").getFile());
-			deployment = new ObjectMapper().readValue(file, Deployment.class);
+			deployment = new ObjectMapper().readValue(file, EscDeployment.class);
 			new ObjectMapper().writeValue(System.out, deployment);
 			System.out.println("");
 		} catch (JsonParseException e) {
@@ -63,7 +63,7 @@ public class JerseyClient {
 			Response response = invocationBuilder.method("POST", entity);
 			//System.out.println(response.getMediaType());
 			//Images images = response.readEntity(Images.class);
-			Deployment depRes = response.readEntity(Deployment.class);
+			EscDeployment depRes = response.readEntity(EscDeployment.class);
 			System.out.println(depRes);
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block

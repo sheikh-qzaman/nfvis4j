@@ -4,30 +4,30 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.sheikh.nfvis4j.model.Deployment;
-import com.sheikh.nfvis4j.model.Deployment.VmGroup;
-import com.sheikh.nfvis4j.model.Deployment.VmGroup.ConfigData;
-import com.sheikh.nfvis4j.model.Deployment.VmGroup.ConfigData.Configuration;
-import com.sheikh.nfvis4j.model.Deployment.VmGroup.ConfigData.Configuration.Variable;
-import com.sheikh.nfvis4j.model.Deployment.VmGroup.Interfaces;
-import com.sheikh.nfvis4j.model.Deployment.VmGroup.Interfaces.Interface;
-import com.sheikh.nfvis4j.model.Deployment.VmGroup.KpiData;
-import com.sheikh.nfvis4j.model.Deployment.VmGroup.KpiData.Kpi;
-import com.sheikh.nfvis4j.model.Deployment.VmGroup.KpiData.Kpi.MetricCollector;
-import com.sheikh.nfvis4j.model.Deployment.VmGroup.Placement;
-import com.sheikh.nfvis4j.model.Deployment.VmGroup.RecoveryPolicy;
-import com.sheikh.nfvis4j.model.Deployment.VmGroup.Rules;
-import com.sheikh.nfvis4j.model.Deployment.VmGroup.Rules.AdminRules;
-import com.sheikh.nfvis4j.model.Deployment.VmGroup.Rules.AdminRules.Rule;
-import com.sheikh.nfvis4j.model.Deployment.VmGroup.Scaling;
-import com.sheikh.nfvis4j.model.Deployment.Vnc;
+import com.sheikh.nfvis4j.model.EscDeployment;
+import com.sheikh.nfvis4j.model.EscDeployment.VmGroup;
+import com.sheikh.nfvis4j.model.EscDeployment.VmGroup.ConfigData;
+import com.sheikh.nfvis4j.model.EscDeployment.VmGroup.ConfigData.Configuration;
+import com.sheikh.nfvis4j.model.EscDeployment.VmGroup.ConfigData.Configuration.Variable;
+import com.sheikh.nfvis4j.model.EscDeployment.VmGroup.Interfaces;
+import com.sheikh.nfvis4j.model.EscDeployment.VmGroup.Interfaces.Interface;
+import com.sheikh.nfvis4j.model.EscDeployment.VmGroup.KpiData;
+import com.sheikh.nfvis4j.model.EscDeployment.VmGroup.KpiData.Kpi;
+import com.sheikh.nfvis4j.model.EscDeployment.VmGroup.KpiData.Kpi.MetricCollector;
+import com.sheikh.nfvis4j.model.EscDeployment.VmGroup.Placement;
+import com.sheikh.nfvis4j.model.EscDeployment.VmGroup.RecoveryPolicy;
+import com.sheikh.nfvis4j.model.EscDeployment.VmGroup.Rules;
+import com.sheikh.nfvis4j.model.EscDeployment.VmGroup.Rules.AdminRules;
+import com.sheikh.nfvis4j.model.EscDeployment.VmGroup.Rules.AdminRules.Rule;
+import com.sheikh.nfvis4j.model.EscDeployment.VmGroup.Scaling;
+import com.sheikh.nfvis4j.model.EscDeployment.Vnc;
 
 /**
  * @author Sheikh Qumruzzaman
  * Sep 14, 2019
  */
 public class EscDeploymentBuilder implements DeploymentBuilder{
-	private Deployment deployment;
+	private EscDeployment deployment;
 	private VmGroup vmGroup;
 	private Placement placement;
 	private ConfigData configData;
@@ -46,8 +46,8 @@ public class EscDeploymentBuilder implements DeploymentBuilder{
 	
 	public EscDeploymentBuilder() {
 		//this(new Deployment(), new Deployment.VmGroup());
-		deployment = new Deployment();
-		vmGroup = new Deployment.VmGroup();
+		deployment = new EscDeployment();
+		vmGroup = new EscDeployment.VmGroup();
 		deployment.setVmGroup(Arrays.asList(vmGroup));
 		placement = new VmGroup.Placement();
 		vmGroup.setPlacement(placement);
@@ -82,15 +82,13 @@ public class EscDeploymentBuilder implements DeploymentBuilder{
 		vmGroup.setVnc(vnc);
 	}
 	
-	public EscDeploymentBuilder(Deployment deployment,
-			Deployment.VmGroup vmGroup, Deployment.VmGroup.Placement placement) {
-		this.deployment = deployment;
-		this.vmGroup = vmGroup;
-	}
-	
 	@Override
 	public DeploymentBuilder name(String name) {
 		deployment.setName(name);
+		// If vim_vm_name not provided it's set to same as deployment name
+		// If is provided name.vim_vm_name will be the identifier of the VM
+		deployment.getVmGroup().get(0).setName(name);
+		deployment.getVmGroup().get(0).setVimVmName(name);
 		return this;
 	}
 	
@@ -130,7 +128,7 @@ public class EscDeploymentBuilder implements DeploymentBuilder{
 	
 	//TODO Move this to super and use generics
 	//@Override
-	public Deployment build() {
+	public EscDeployment build() {
 		return deployment;
 	}
 }

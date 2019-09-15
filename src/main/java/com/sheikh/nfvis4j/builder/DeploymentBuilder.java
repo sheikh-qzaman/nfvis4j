@@ -1,6 +1,6 @@
 package com.sheikh.nfvis4j.builder;
 
-import com.sheikh.nfvis4j.model.Deployment;
+import com.sheikh.nfvis4j.model.EscDeployment;
 
 /**
  * All Deployment builder will implement this interface.
@@ -9,7 +9,9 @@ import com.sheikh.nfvis4j.model.Deployment;
  * need to implement this interface.
  * The build method usually resides on the implementing classes
  * if we don't know what type of object it's going to return.
- * If we do know, in this case Deployment, we can just put it here.
+ * One option is to use an interface as return type, but not all
+ * deployments are going to have common interface
+ * If we do know the type, i.e.  Deployment, we can just put it here.
  * Other option is using generic.
  * @author Sheikh Qumruzzaman
  * Sep 14, 2019
@@ -21,5 +23,5 @@ public interface DeploymentBuilder {
 	public DeploymentBuilder network(String network);
 	public DeploymentBuilder bootupTime(String bootupTime);
 	//TODO Use generics
-	public Deployment build();
+	public EscDeployment build();
 }

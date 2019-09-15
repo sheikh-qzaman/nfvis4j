@@ -2,7 +2,7 @@ package com.sheikh.nfvis4j.client;
 
 import javax.ws.rs.HttpMethod;
 
-import com.sheikh.nfvis4j.model.Deployment;
+import com.sheikh.nfvis4j.model.EscDeployment;
 
 /**
  * @author Sheikh Qumruzzaman
@@ -14,15 +14,15 @@ public class ComputeResources {
 	public ComputeResources(NfvisRestClient client) {
 		this.client = client;
 	}
-	public Deploy deploy(Deployment deployment) {
+	public Deploy deploy(EscDeployment deployment) {
 		return new Deploy(deployment);
 	}
 	
-	public class Deploy extends NfvisRequest<Deployment>{
-		private Deployment deployment;
+	public class Deploy extends NfvisRequest<EscDeployment>{
+		private EscDeployment deployment;
 		
-		public Deploy(Deployment deployment) {
-			super(client, HttpMethod.POST, "/api/config/vm_lifecycle/tenants/tenant/admin/deployments", Entity.yjson(deployment), Deployment.class);
+		public Deploy(EscDeployment deployment) {
+			super(client, HttpMethod.POST, "/api/config/vm_lifecycle/tenants/tenant/admin/deployments", Entity.yjson(deployment), EscDeployment.class);
 			this.deployment = deployment;
 		}
 	}
