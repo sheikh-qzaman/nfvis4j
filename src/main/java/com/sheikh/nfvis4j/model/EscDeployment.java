@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 @JsonTypeInfo(include = As.WRAPPER_OBJECT, use = Id.NAME)
 @JsonTypeName("deployment")
 @JsonInclude(Include.NON_NULL)
-public class EscDeployment implements Serializable{
+public class EscDeployment implements Deployment{
 	private String name;
 	
 	@JsonProperty("vm_group")
