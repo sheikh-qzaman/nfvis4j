@@ -2,6 +2,7 @@ package com.sheikh.nfvis4j.client;
 
 import javax.ws.rs.HttpMethod;
 
+import com.sheikh.nfvis4j.factory.NfvisResources;
 import com.sheikh.nfvis4j.model.Deployment;
 import com.sheikh.nfvis4j.model.EscDeployment;
 
@@ -9,7 +10,7 @@ import com.sheikh.nfvis4j.model.EscDeployment;
  * @author Sheikh Qumruzzaman
  * Sep 11, 2019
  */
-public class ComputeResources {
+public class ComputeResources implements NfvisResources{
 	private final NfvisRestClient client;
 	
 	public ComputeResources(NfvisRestClient client) {
@@ -19,11 +20,11 @@ public class ComputeResources {
 		return new Deploy(deployment);
 	}
 	
-	public class Deploy extends NfvisRequest<Deployment>{
+	public class Deploy extends NfvisRequest<Void>{
 		private Deployment deployment;
 		
 		public Deploy(Deployment deployment) {
-			super(client, HttpMethod.POST, "/api/config/vm_lifecycle/tenants/tenant/admin/deployments", Entity.yjson(deployment), Deployment.class);
+			super(client, HttpMethod.POST, "/api/config/vm_lifecycle/tenants/tenant/admin/deployments", Entity.yjson(deployment), Void.class);
 			this.deployment = deployment;
 		}
 	}

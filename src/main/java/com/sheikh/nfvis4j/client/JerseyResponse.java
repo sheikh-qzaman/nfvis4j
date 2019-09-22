@@ -18,10 +18,10 @@ public class JerseyResponse implements NfvisResponse{
 		this.response = response;
 	}
 	@Override
-	public <T> T getEntity(Class<T> returnType) {
+	public <T> T getEntity(Class<T> returnType){
 		if(response.getStatus() >= 400) {
-			//throw new OpenStackResponseException(response.getStatusInfo().getReasonPhrase(),
-			//		response.getStatusInfo().getStatusCode());
+			throw new NfvisResponseException(response.getStatusInfo().getReasonPhrase(),
+					response.getStatusInfo().getStatusCode());
 		}
 		return response.readEntity(returnType);
 	}
