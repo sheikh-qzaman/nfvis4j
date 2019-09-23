@@ -35,11 +35,11 @@ public class EscDeploymentBuilder implements DeploymentBuilder{
 	private Interfaces interfaces;
 	private List<Interface> interfaces_;
 	private KpiData kpiData;
-	private Kpi kpi;
+	private List<Kpi> kpi;
 	private RecoveryPolicy recoveryPolicy;
 	private Rules rules;
 	private AdminRules adminRules;
-	private Rule rule;
+	private List<Rule> rule;
 	private Scaling scaling;
 	private Vnc vnc;
 	
@@ -50,7 +50,7 @@ public class EscDeploymentBuilder implements DeploymentBuilder{
 		vmGroup = new EscDeployment.VmGroup();
 		deployment.setVmGroup(Arrays.asList(vmGroup));
 		placement = new VmGroup.Placement();
-		vmGroup.setPlacement(placement);
+		vmGroup.setPlacement(Arrays.asList(placement));
 		configData = new VmGroup.ConfigData();
 		configuration = new ConfigData.Configuration();
 		configuration.setVariable(Arrays.asList(new Variable()));
@@ -63,16 +63,16 @@ public class EscDeploymentBuilder implements DeploymentBuilder{
 		interfaces.setInterfaces(interfaces_);
 		vmGroup.setInterfaces(interfaces);
 		kpiData = new KpiData();
-		kpi = new Kpi();
+		kpi = new ArrayList<>();
 		kpiData.setKpi(kpi);
 		MetricCollector mc = new MetricCollector();
-		kpiData.getKpi().setMetricCollector(mc);
+		kpiData.getKpi().get(0).setMetricCollector(mc);
 		vmGroup.setKpiData(kpiData);
 		scaling = new Scaling();
 		vmGroup.setScaling(scaling);
 		rules = new Rules();
 		adminRules = new AdminRules();
-		rule = new Rule();
+		rule = new ArrayList<>();
 		adminRules.setRule(rule);
 		rules.setAdminRules(adminRules);
 		vmGroup.setRules(rules);

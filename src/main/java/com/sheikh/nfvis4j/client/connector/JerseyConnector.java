@@ -10,6 +10,7 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
 
 import com.sheikh.nfvis4j.client.JerseyResponse;
 import com.sheikh.nfvis4j.client.NfvisRequest;
@@ -35,6 +36,7 @@ public class JerseyConnector implements NfvisConnector{
 				}
 			}
 			
+			//Invocation.Builder invocation = target.request(MediaType.TEXT_PLAIN_TYPE)
 			Invocation.Builder invocation = target.request()
 					.header("Authorization", "Basic YWRtaW46Q2lzY28xMjMj");
 

@@ -16,7 +16,8 @@ import com.sheikh.nfvis4j.model.EscDeployment;
  * Sep 12, 2019
  */
 public class VnfDeploy {
-	public static void main(String[] args) {
+	static Nfvis nfvis = new Nfvis("https://192.168.0.222");
+	public static void deploy() {
 		/*try {
 			File file = new File(VnfDeploy.class.getClassLoader().getResource("data/ROUTER.json").getFile());
 			deployment = new ObjectMapper().readValue(file, Deployment.class);
@@ -41,7 +42,19 @@ public class VnfDeploy {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		Nfvis nfvis = new Nfvis("https://192.168.0.222");
+		
 		nfvis.compute().deploy(deployment).execute();
 	}
+	
+	public static void getDeployment() {
+		Deployment dep = nfvis.compute().deployment("ROUTER").execute();
+		System.out.println(dep.toString());
+	}
+	
+	public static void main(String[] args) {
+		getDeployment();
+		//deploy();
+	}
+	
+	
 }

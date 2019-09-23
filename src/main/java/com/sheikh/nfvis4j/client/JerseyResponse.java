@@ -4,7 +4,10 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import com.sheikh.nfvis4j.model.Deployment;
 
 /**
  * @author Sheikh Qumruzzaman

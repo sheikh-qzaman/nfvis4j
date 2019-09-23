@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
  * Sep 9, 2019
  */
 @JsonTypeInfo(include = As.WRAPPER_OBJECT, use = Id.NAME)
-@JsonTypeName("deployment")
+@JsonTypeName("vmlc:deployment")
 @JsonInclude(Include.NON_NULL)
 public class EscDeployment implements Deployment{
 	private String name;
@@ -52,7 +52,7 @@ public class EscDeployment implements Deployment{
 		private String bootupTime = "-1";
 		@JsonProperty("recovery_wait_time")
 		private String recoveryWaitTime = "5";
-		private Placement placement;
+		private List<Placement> placement;
 		@JsonProperty("recovery_policy")
 		private RecoveryPolicy recoveryPolicy;
 		private Interfaces interfaces;
@@ -100,10 +100,10 @@ public class EscDeployment implements Deployment{
 		public void setRecoveryWaitTime(String recoveryWaitTime) {
 			this.recoveryWaitTime = recoveryWaitTime;
 		}
-		public Placement getPlacement() {
+		public List<Placement> getPlacement() {
 			return placement;
 		}
-		public void setPlacement(Placement placement) {
+		public void setPlacement(List<Placement> placement) {
 			this.placement = placement;
 		}
 		public RecoveryPolicy getRecoveryPolicy() {
@@ -243,13 +243,13 @@ public class EscDeployment implements Deployment{
 		
 		public static class KpiData implements Serializable{
 			//TODO Remove default values
-			private Kpi kpi;
+			private List<Kpi> kpi;
 			
-			public Kpi getKpi() {
+			public List<Kpi> getKpi() {
 				return kpi;
 			}
 
-			public void setKpi(Kpi kpi) {
+			public void setKpi(List<Kpi> kpi) {
 				this.kpi = kpi;
 			}
 
@@ -373,13 +373,13 @@ public class EscDeployment implements Deployment{
 			}
 
 			public static class AdminRules implements Serializable{
-				private Rule rule;
+				private List<Rule> rule;
 				
-				public Rule getRule() {
+				public List<Rule> getRule() {
 					return rule;
 				}
 
-				public void setRule(Rule rule) {
+				public void setRule(List<Rule> rule) {
 					this.rule = rule;
 				}
 
@@ -436,7 +436,7 @@ public class EscDeployment implements Deployment{
 
 				public static class Variable implements Serializable{
 					private String name = "TECH_PACKAGE";
-					private String val = "ax";
+					private List<String> val = Arrays.asList("ax");
 					
 					public String getName() {
 						return name;
@@ -444,10 +444,10 @@ public class EscDeployment implements Deployment{
 					public void setName(String name) {
 						this.name = name;
 					}
-					public String getVal() {
+					public List<String> getVal() {
 						return val;
 					}
-					public void setVal(String val) {
+					public void setVal(List<String> val) {
 						this.val = val;
 					}
 				}
