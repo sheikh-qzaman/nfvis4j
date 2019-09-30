@@ -45,4 +45,14 @@ public class ComputeResources implements NfvisResources{
 			this.queryParam("deep", "");
 		}
 	}
+	
+	public Undeploy undeploy(String deploymentName) {
+		return new Undeploy(deploymentName);
+	}
+	
+	public class Undeploy extends NfvisRequest<Void> {
+		public Undeploy(String deploymentName) {
+			super(client, HttpMethod.DELETE, "/api/config/vm_lifecycle/tenants/tenant/admin/deployments/deployment/" + deploymentName, null, Void.class);
+		}
+	}
 }

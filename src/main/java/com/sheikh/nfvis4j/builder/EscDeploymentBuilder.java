@@ -63,7 +63,7 @@ public class EscDeploymentBuilder implements DeploymentBuilder{
 		interfaces.setInterfaces(interfaces_);
 		vmGroup.setInterfaces(interfaces);
 		kpiData = new KpiData();
-		kpi = new ArrayList<>();
+		kpi = new ArrayList<>(Arrays.asList(new Kpi()));
 		kpiData.setKpi(kpi);
 		MetricCollector mc = new MetricCollector();
 		kpiData.getKpi().get(0).setMetricCollector(mc);

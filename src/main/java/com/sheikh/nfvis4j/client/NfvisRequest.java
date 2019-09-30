@@ -33,7 +33,7 @@ public class NfvisRequest<R> {
 		this.path = new StringBuilder(path);
 		this.entity = entity;
 		this.returnType = returnType;
-		header("Accept", "application/json");
+		//header("Accept", "application/json");
 	}
 
 	public R execute() {
